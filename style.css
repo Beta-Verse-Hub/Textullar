@@ -2,7 +2,7 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+     box-sizing: border-box;
 }
 
 html, body{
@@ -19,9 +19,10 @@ body{
 
 .navbar, .container{
     background-color: rgb(28, 28, 29);
-    width: 800px;
+    width: 90%;
     border-radius: 3px;
 }
+
 .navbar{
     padding: 1em;
     margin-bottom: 1em;
@@ -29,10 +30,12 @@ body{
     justify-content: center;
     align-items: center;
 }
+
 .btn, input{
     height: 35px;
     padding: 0 1em;
 }
+
 .color{
     padding: 0 .25em;
     width: 100px;
@@ -40,15 +43,21 @@ body{
 }
 
 .container{
-    --size: 4;
-    height: 800px;
+    height: 99%;
+    width: 99%;
     display: grid;
     grid-template-columns: repeat(var(--size), 1fr);
     grid-template-rows: repeat(var(--size), 1fr);
-    gap: 3px;
     padding: 3px;
 }
+
 .pixel{
+    padding-left: 32px;
+    padding-top: 32px;
     background-color: rgb(61, 61, 61);
-    border-radius: 2px;
+    margin: 0px;
+    border-radius: 0px;
+    font-size: 40px;
+    line-height: 40px;
+    text-wrap: nowrap;
 }
