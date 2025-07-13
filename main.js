@@ -1,7 +1,7 @@
 const container = document.querySelector(".container")
 const sizeX = document.querySelector("#sizeX")
 const sizeY = document.querySelector("#sizeY")
-const color = document.querySelector(".color")
+const cursorColor = document.querySelector(".color")
 const resetBtn = document.querySelector(".btn")
 
 let size = [parseInt(sizeX.value), parseInt(sizeY.value)]
@@ -33,31 +33,35 @@ let draw = false
  * columns.
  */
 function make_text(size){
-    const div = document.createElement("textarea")
+    const div = document.createElement("div")
+    div.contentEditable = true
+
     for (let i = 0; i < size[1]; i++) {
         for (let j = 0; j < size[0]; j++) {
-            div.value += "t"
+            div.innerHTML += "█"
         }
-        div.value += "\n"
+        div.innerHTML += "\n"
     }
+
     div.className = "pixel"
     container.appendChild(div)
 
-    
     // TODO: Fix the drawing method.
-    container.querySelector("textarea").addEventListener("keydown", function(event){
+    container.querySelector("div").addEventListener("keydown", function(event){
 
-        let textarea = container.querySelector("textarea");
+        let textarea = container.querySelector("div");
 
         if (textarea) {
             const start = textarea.selectionStart;
             const finish = textarea.selectionEnd;
-        
-            if (start !== undefined && finish !== undefined) {
+
+            if (start !== undefined && finish !== undefined && start !== finish) {
                 const sel = textarea.value.substring(start, finish);
-        
-                textarea.value = textarea.value.substring(0, start) + event.key.repeat(sel.length) + textarea.value.substring(finish);
-                event.preventDefault();
+
+                if (event.key.length === 1 && event.key.match(/^.$/u)) {
+                    textarea.value = textarea.value.substring(0, start) + event.key.repeat(sel.length) + textarea.value.substring(finish);
+                    event.preventDefault();
+                }
             }
         }
     })
@@ -68,6 +72,12 @@ document.addEventListener("mouseup", function(){
     draw = false
 })
 
+
+if (cursorColor){
+    cursorColor.addEventListener("input", function(){
+        container.querySelector("div").style.caretColor = cursorColor.value
+    })
+}
 
 function reset(){
     container.innerHTML = ''

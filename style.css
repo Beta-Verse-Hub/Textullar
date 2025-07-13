@@ -17,6 +17,10 @@ body{
     flex-direction: column;
 }
 
+div[contenteditable="true"] {
+  caret-color: inherit;
+}
+
 .navbar, .container{
     background-color: rgb(28, 28, 29);
     width: 90%;
@@ -25,8 +29,11 @@ body{
 
 .navbar{
     padding: 1em;
-    margin-bottom: 1em;
+    width : 100%;
+    top: 0;
     display: flex;
+    position: fixed;
+    align-self: top;
     justify-content: center;
     align-items: center;
 }
@@ -43,12 +50,11 @@ body{
 }
 
 .container{
-    height: 99%;
-    width: 99%;
+    height: 80%;
+    width: 95%;
     display: grid;
-    grid-template-columns: repeat(var(--size), 1fr);
-    grid-template-rows: repeat(var(--size), 1fr);
     padding: 3px;
+    margin-top: 5%;
 }
 
 .pixel{
@@ -58,6 +64,9 @@ body{
     margin: 0px;
     border-radius: 0px;
     font-size: 40px;
-    line-height: 40px;
-    text-wrap: nowrap;
+    font-family: monospace;
+    line-height: 45px;
+    text-wrap: unset;
+    overflow: scroll;
+    white-space: pre;
 }
