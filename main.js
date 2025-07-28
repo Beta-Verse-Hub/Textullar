@@ -34,6 +34,7 @@ let draw = false
  */
 function make_text(size){
     const div = document.createElement("div")
+    div.style.caretColor = cursorColor.value
     div.contentEditable = true
 
     for (let i = 0; i < size[1]; i++) {
@@ -50,22 +51,37 @@ function make_text(size){
     container.querySelector("div").addEventListener("keydown", function(event){
 
         let textarea = container.querySelector("div");
+        const selection = window.getSelection();
 
-        if (textarea) {
-            const start = textarea.selectionStart;
-            const finish = textarea.selectionEnd;
+        if (!textarea) {
+            return
+        }else if (!selection) {
+            return
+        };
 
-            if (start !== undefined && finish !== undefined && start !== finish) {
-                const sel = textarea.value.substring(start, finish);
+        let start = selection.anchorOffset;
+        let finish = selection.focusOffset;
+        const range = document.createRange();
 
-                if (event.key.length === 1 && event.key.match(/^.$/u)) {
-                    textarea.value = textarea.value.substring(0, start) + event.key.repeat(sel.length) + textarea.value.substring(finish);
-                    event.preventDefault();
-                }
-            }
+        if (finish < start){
+            [start, finish] = [finish, start];
+        };
+
+        if (event.key.length === 1 && event.key.match(/^.$/u)) {
+            textarea.innerHTML = textarea.innerHTML.substring(0, start) + event.key.repeat(Math.abs(finish - start)) + textarea.innerHTML.substring(finish);
+
+            // Set the cursor position to the desired offset
+            range.selectNodeContents(textarea);
+            range.collapse(true); // collapse to the start of the range
+            range.setEnd(textarea.childNodes[0], finish); // move the end of the range
+            range.setStart(textarea.childNodes[0], start); // move the start of the range
+
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            event.preventDefault();
         }
     })
-
 }
 
 document.addEventListener("mouseup", function(){
